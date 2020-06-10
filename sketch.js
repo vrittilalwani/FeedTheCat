@@ -1,14 +1,17 @@
 
 
-var cat,catImg, database;
+var cat,catImg,catImg1, database;
 var food, foodImage;
 var credit,creditRem;
 var foodS,foodStock;
 var buyFood;
 var feed;
+var score,credit1;
+
+
 function preload(){
-catImg=loadImage("Images/happycat.jpg");
-foodImage=loadImage("Images/milk.png");
+catImg=loadImage("Images/happyCat.jpg");
+catImg1=loadImage("Images/angryCat.jpg");
 }
 
 
@@ -16,14 +19,15 @@ function setup() {
   database=firebase.database();
   createCanvas(1200,800);
 
-  food=createSprite(200,200,20,40);
-  food.addImage(foodImage)
-  food.scale=0.2;
+ 
 
   cat=createSprite(600,600,20,20);
-  cat.addImage(catImg);
+  cat.addImage(catImg1);
   cat.scale=0.1;
 cat.shapeColor="red";
+
+score = new Score();
+credit1 = new Credit();
 
  foodStock=database.ref('Food');
   foodStock.on("value",readStock);
@@ -50,12 +54,9 @@ function draw() {
     writeStock(foodS);
   }*/
   
-  textSize(20);
-  stroke("white");
-  text("Milk bottles in Stock "+foodS,500,100);
-  text("Your Credit Score "+creditRem,500,140);
- console.log("Foods "+foodS);
- console.log("Credit "+creditRem);
+  
+ score.display();
+ credit1.display();
 
   drawSprites();
 }
@@ -75,6 +76,7 @@ function buyaFood(){
 }
 
 function feedCat(){
+  cat.addImage(catImg);
   foodS--;
   database.ref('/').update({
     Food:foodS
