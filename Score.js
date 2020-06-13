@@ -1,7 +1,7 @@
 class Score {
     constructor(){
 
-    this.image=loadImage('Images/Empty_milk_bottle.png');
+    this.image=loadImage('Empty_milk_bottle.png');
     }
 
     display(){
