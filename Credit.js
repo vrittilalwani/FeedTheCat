@@ -1,7 +1,7 @@
 class Credit {
     constructor(){
 
-    this.image=loadImage('Images/Coin.png');
+    this.image=loadImage('Coin.png');
     }
 
     display(){
