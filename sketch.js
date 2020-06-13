@@ -1,5 +1,5 @@
 
-
+var gameState="hungry";
 var cat,catImg,catImg1, database;
 var food, foodImage;
 var credit,creditRem;
@@ -12,8 +12,8 @@ var h;
 
 
 function preload(){
-catImg=loadImage("happyCat.jpg");
-catImg1=loadImage("angryCat.jpg");
+catImg=loadImage("Images/happyCat.jpg");
+catImg1=loadImage("Images/angryCat.jpg");
 }
 
 
@@ -24,7 +24,7 @@ function setup() {
  
 
   cat=createSprite(600,600,20,20);
-  cat.addImage(catImg1);
+ 
   cat.scale=0.1;
 cat.shapeColor="red";
 
@@ -48,35 +48,57 @@ credit1 = new Credit();
   buyFood.position(1000,200);
   buyFood.mousePressed(buyaFood);
 
+  Time=createButton("Time");
+  Time.position(100,100);
+ 
+
   feed=createButton("Feed the Cat");
   feed.position(1000,250);
   feed.mousePressed(feedCat);
 }
-
+function getTime(){
+  var h=hour();
+  textSize(30);
+  text(h,100,200);
+  console.log("Time "+h);
+}
 function draw() {
-  background(0,0,0);  
+  background("white");  
 
+  if(gameState==="hungry"){
+    cat.addImage(catImg1);
+    text("I AM HUNGRY",200,200);
+  }
+  
+  Time.mousePressed(getTime);
   /*if(keyWentDown(UP_ARROW)){
     foodS--;
     writeStock(foodS);
   }*/
 currentTime=hour();
  if(lastFed===currentTime){
-   console.log("HAPPY");
+   text("Thank You", 200,400);
+   cat.addImage(catImg);
+   gameState="playing";
  } 
  else
- if(currentTime>=(lastFed+2)){
-   console.log("PLAYING");
+ if(currentTime>(lastFed+2) && currentTime<(lastFed+3)){
+   text("Sleeping",200,400);
+   gameState="sleeping";
  }
  else 
- if(currentTime>=(lastFed+4)){
-   console.log("ANGRY");
+ if(currentTime>(lastFed+3) && currentTime<(lastFed+4)){
+   gameState="hungry";
  }
  else
  if(currentTime>(lastFed+5)){
-   console.log("DEAD");
+   text("GoodBye",200,400);
+   gameState="end";
  }
-  
+  if(gameState==="end"){
+    buyFood.hide();
+    feed.hide();
+  }
  score.display();
  credit1.display();
 
