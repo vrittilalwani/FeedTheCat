@@ -12,8 +12,8 @@ var h;
 
 
 function preload(){
-catImg=loadImage("Images/happyCat.jpg");
-catImg1=loadImage("Images/angryCat.jpg");
+catImg=loadImage("happyCat.jpg");
+catImg1=loadImage("angryCat.jpg");
 }
 
 
