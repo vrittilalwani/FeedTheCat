@@ -5,8 +5,10 @@ var food, foodImage;
 var credit,creditRem;
 var foodS,foodStock;
 var buyFood;
+var fedTime,lastFed,currentTime;
 var feed;
 var score,credit1;
+var h;
 
 
 function preload(){
@@ -37,6 +39,11 @@ credit1 = new Credit();
     creditRem=data.val();
   });
 
+  fedTime=database.ref('FeedTime');
+  fedTime.on("value",function(data){
+    lastFed=data.val();
+  });
+
   buyFood=createButton("Buy Food");
   buyFood.position(1000,200);
   buyFood.mousePressed(buyaFood);
@@ -53,7 +60,22 @@ function draw() {
     foodS--;
     writeStock(foodS);
   }*/
-  
+currentTime=hour();
+ if(lastFed===currentTime){
+   console.log("HAPPY");
+ } 
+ else
+ if(currentTime>=(lastFed+2)){
+   console.log("PLAYING");
+ }
+ else 
+ if(currentTime>=(lastFed+4)){
+   console.log("ANGRY");
+ }
+ else
+ if(currentTime>(lastFed+5)){
+   console.log("DEAD");
+ }
   
  score.display();
  credit1.display();
@@ -76,10 +98,13 @@ function buyaFood(){
 }
 
 function feedCat(){
+  h=hour();
+  console.log(h);
   cat.addImage(catImg);
   foodS--;
   database.ref('/').update({
-    Food:foodS
+    Food:foodS,
+    FeedTime:h
   })
 }
 
